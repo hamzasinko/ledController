@@ -55,7 +55,7 @@ class AppCard extends StatelessWidget {
 class AppButton extends StatelessWidget {
   final String label;
   final bool active;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Color? activeColor;
   final IconData? icon;
 
@@ -109,7 +109,7 @@ class AppButton extends StatelessWidget {
 
 class AppWideButton extends StatelessWidget {
   final String label;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Color? color;
   final IconData? icon;
 
