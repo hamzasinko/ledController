@@ -215,7 +215,12 @@ class _DashboardPageState extends State<DashboardPage> {
             label: 'All Off',
             icon: Icons.power_settings_new_rounded,
             color: AppColors.error,
-            onTap: () => _send('allOff'),
+            onTap: () {
+              _send('allOff');
+              setState(() {
+                _quickColor = '';
+              });
+            }
           ),
 
           const SizedBox(height: 16),

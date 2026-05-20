@@ -162,7 +162,12 @@ class _DiscoPageState extends State<DiscoPage> {
             label: 'Stop Disco',
             icon: Icons.stop_circle_outlined,
             color: AppColors.error,
-            onTap: () => _send("discoA 00 0000 0000"),
+            onTap: () {
+              _send("discoA 00 0000 0000");
+              setState(() {
+                _selectedColor = 'A';
+              });
+            }
           ),
         ],
       ),
