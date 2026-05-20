@@ -16,6 +16,7 @@ class _DashboardPageState extends State<DashboardPage> {
   final _udp = UdpService();
   bool _pinging = false;
   double _power = 100;
+  String _quickColor = ''; // '', 'R', 'G', 'B', 'W'
 
   @override
   void initState() {
@@ -44,6 +45,42 @@ class _DashboardPageState extends State<DashboardPage> {
     setState(() => _power = v);
     await _send('maxLedPow ${v.toInt().toString().padLeft(3, '0')}');
   }
+
+  Widget _buildQuickColor(String key, Color color, String cmd) {
+    final bool active = _quickColor == key;
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() => _quickColor = key);
+          _send(cmd);
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: active ? color.withOpacity(0.35) : color.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: active ? color : color.withOpacity(0.35),
+              width: active ? 2 : 1,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              key,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: active ? Colors.white : color,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -147,21 +184,17 @@ class _DashboardPageState extends State<DashboardPage> {
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    for (final entry in [
-                      ('R', const Color(0xFFE74C3C), 'setBG 255 000 000 000 000 081'),
-                      ('G', const Color(0xFF38C172), 'setBG 000 255 000 000 000 081'),
-                      ('B', const Color(0xFF3498DB), 'setBG 000 000 255 000 000 081'),
-                      ('W', AppColors.text, 'setBG 000 000 000 255 000 081'),
-                    ]) ...[
-                      Expanded(
-                        child: _ColorDot(
-                          label: entry.$1,
-                          color: entry.$2,
-                          onTap: () => _send(entry.$3),
-                        ),
-                      ),
-                      if (entry.$1 != 'W') const SizedBox(width: 8),
-                    ],
+                    _buildQuickColor('R', const Color(0xFFE74C3C),
+                    'setBG 255 000 000 000 000 081'),
+                    const SizedBox(width: 8),
+                    _buildQuickColor('G', const Color(0xFF38C172),
+                    'setBG 000 255 000 000 000 081'),
+                    const SizedBox(width: 8),
+                    _buildQuickColor('B', const Color(0xFF3498DB),
+                    'setBG 000 000 255 000 000 081'),
+                    const SizedBox(width: 8),
+                    _buildQuickColor('W', AppColors.text,
+                    'setBG 000 000 000 255 000 081'),
                   ],
                 ),
               ],
