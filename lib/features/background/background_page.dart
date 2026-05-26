@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/network/udp_service.dart';
-import '../../core/theme/app_theme.dart';
 import '../../shared/widgets/app_scaffold.dart';
 import '../../shared/widgets/app_widgets.dart';
 
